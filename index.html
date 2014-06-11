@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+
+<html>
+<head>
+    <script src="dist/angular.min.js"></script>
+    <script src="dist/d3.min.js"></script>
+    <script src="dist/nv.d3.min.js"></script>
+    <script src="dist/angularjs-nvd3-directives.min.js"></script>
+
+    <script type="text/javascript" src="src/app.js"></script>
+
+    <link rel="stylesheet" href="styles.css"/>
+    <link rel="stylesheet" href="dist/nv.d3.min.css"/>
+</head>
+
+<body data-ng-app="DepositApp" data-ng-controller="DespoitCtrl">
+    <div class="app-inner app-main-content">
+    
+        <div class="app-screen-content" data-ui-view="screen-content" >
+    
+    
+            <div class="page-content page-content--calculators ng-scope">
+    
+                <h1 class="intro-heading">How long to save for a deposit?</h1>
+    
+                <section id="content-pane" class="content-pane">
+                    <h2>Calculate Affordability</h2>
+                    <div class="content-pane__inset">
+                        <div class="tabs tabs--main">
+                            <ul class="tabs__nav tabs--main__nav"><!-- ngRepeat: pane in panes -->
+                                <li class="tabs__tab-header tabs--main__tab-header tabs__tab-header--first is-active" data-ng-class="{'is-active':pane.selected, 'is-disabled':pane.disabled, 'tabs__tab-header--first': $first, 'tabs__tab-header--middle': $middle, 'tabs__tab-header--last': $last}">
+                                    <a ng-href="#inputs" href="#inputs">Inputs <span class="ng-binding"></span></a></li>
+                            </ul>
+                        </div>
+    
+                        <div class="tabs__content-panes tabs--main__content-panes">
+                            <div class="tabs__content-pane is-active" data-ng-class="{'is-active': selected}">
+    
+                                <form class="affordability-input" >
+                                    <!-- Field block -->
+                                    <fieldset class="inline-fieldset">
+                                        <div class="inline-fieldset__label">
+                                            <span class="inline-fieldset__label-text">Target House Price</span>
+                                        </div>
+                                        <div class="inline-fieldset__field-row">
+                                            <div class="input input--prepend inline-fieldset__field">
+                                                <span class="input__add-on input__add-on--prepend">£</span>
+                                                <input type="number" integer name="monthly-income" class="input__field " data-ng-model="depositSave.housePrice" min="1"/>
+    
+                                                <span class="account-form__error ng-hide" />
+                                                <i></i>
+                                                <span class="ng-binding"></span>
+                                            </div>
+                                        </div>
+                                    </fieldset>
+    
+                                    <!-- Field block -->
+                                    <fieldset class="inline-fieldset">
+                                        <div class="inline-fieldset__label">
+                                            <span class="inline-fieldset__label-text">Despoit %</span>
+                                        </div>
+                                        <div class="inline-fieldset__field-row">
+                                            <div class="input input--append inline-fieldset__field inline-fieldset__field--right">
+    
+                                                <input type="number" integer name="monthly-income" class="input__field " data-ng-model="depositSave.depositPercentage" max="100" min="1"/>
+                                                <span class="input__add-on">%</span>
+                                                <span class="account-form__error ng-hide" />
+                                                <i></i>
+                                                <span class="ng-binding"></span>
+                                            </div>
+                                        </div>
+                                    </fieldset>
+    
+                                    <!-- Text block -->
+                                    <fieldset class="inline-fieldset">
+                                        <div class="inline-fieldset__label">
+                                            <span class="inline-fieldset__label-text">Deposit amount </span>
+                                        </div>
+                                        <div class="inline-fieldset__field-row">
+                                            <div class="input input--prepend inline-fieldset__field">
+                                                &pound;{{depositSave.getDespositAmount() | number}}
+                                            </div>
+                                        </div>
+                                    </fieldset>
+    
+                                    <!-- Text block -->
+                                    <fieldset class="inline-fieldset">
+                                        <div class="inline-fieldset__label">
+                                            <span class="inline-fieldset__label-text">Stamp duty </span>
+                                        </div>
+                                        <div class="inline-fieldset__field-row">
+                                            <div class="input input--prepend inline-fieldset__field">
+                                                &pound;{{depositSave.getStampDuty(depositSave.housePrice) | number}}
+                                            </div>
+                                        </div>
+                                    </fieldset>
+    
+                                    <!-- Text block -->
+                                    <fieldset class="inline-fieldset">
+                                        <div class="inline-fieldset__label">
+                                            <span class="inline-fieldset__label-text">Buying fees </span>
+                                        </div>
+                                        <div class="inline-fieldset__field-row">
+                                            <div class="input input--prepend inline-fieldset__field">
+                                                &pound;{{depositSave.getBuyingFees() | number}}
+                                            </div>
+                                        </div>
+                                    </fieldset>
+    
+                                    <!-- Text block -->
+                                    <fieldset class="inline-fieldset">
+                                        <div class="inline-fieldset__label">
+                                            <span class="inline-fieldset__label-text">Cash required </span>
+                                        </div>
+                                        <div class="inline-fieldset__field-row">
+                                            <div class="input input--prepend inline-fieldset__field">
+                                                &pound;{{depositSave.getCashRequired(depositSave.housePrice, depositSave.depositPercentage, depositSave.currentSavings) | number}}
+                                            </div>
+                                        </div>
+                                    </fieldset>
+    
+    
+                                    <!-- Field block -->
+                                    <fieldset class="inline-fieldset">
+                                        <div class="inline-fieldset__label">
+                                            <span class="inline-fieldset__label-text">Amount of current savings</span>
+                                        </div>
+                                        <div class="inline-fieldset__field-row">
+                                            <div class="input input--prepend inline-fieldset__field">
+                                                <span class="input__add-on input__add-on--prepend">£</span>
+                                                <input type="number" integer name="monthly-income" class="input__field " data-ng-model="depositSave.currentSavings"  />
+    
+                                                <span class="account-form__error ng-hide" />
+                                                <i></i>
+                                                <span class="ng-binding"></span>
+                                            </div>
+                                        </div>
+                                    </fieldset>
+    
+                                    <!-- Text block -->
+                                    <fieldset class="inline-fieldset">
+                                        <div class="inline-fieldset__label">
+                                            <span class="inline-fieldset__label-text">Amount you need to save </span>
+                                        </div>
+                                        <div class="inline-fieldset__field-row">
+                                            <div class="input input--prepend inline-fieldset__field">
+                                                &pound;{{depositSave.getExtraSavingsRequired() | number}}
+                                            </div>
+                                        </div>
+                                    </fieldset>
+    
+                                    <!-- Field block -->
+                                    <fieldset class="inline-fieldset">
+                                        <div class="inline-fieldset__label">
+                                            <span class="inline-fieldset__label-text">Amount to save per month</span>
+                                        </div>
+                                        <div class="inline-fieldset__field-row">
+                                            <div class="input input--prepend inline-fieldset__field">
+                                                <span class="input__add-on input__add-on--prepend">£</span>
+                                                <input type="number" integer name="monthly-income" class="input__field " data-ng-model="depositSave.savingPerMonth" />
+    
+                                                <span class="account-form__error ng-hide" />
+                                                <i></i>
+                                                <span class="ng-binding"></span>
+                                            </div>
+                                        </div>
+                                    </fieldset>
+    
+                                    <br />
+    
+                                    <div class="form-prompt show-more-container">Assuming you save <strong>&pound;{{depositSave.savingPerMonth | number}}</strong> per month, it would take you <strong>{{depositSave.getTimeToSave() | number}}</strong> months to save <strong>&pound;{{depositSave.getExtraSavingsRequired() | number}}</strong> to have enough deposit to buy your home priced at <strong>&pound;{{depositSave.housePrice | number}}</strong>.</div>
+    
+                                    <div>
+                                        <nvd3-line-chart
+                                                data="depositSave.resultSet()"
+                                                showXAxis="true"
+                                                showYAxis="true"
+                                                tooltips="true"
+                                                interactive="true"
+                                                width="800"
+                                                height="450">
+                                        </nvd3-line-chart>
+    
+                                    </div>
+    
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+    
+    
+                </section>
+            </div>
+    
+        </div>
+    </div>
+</body>
+</html>

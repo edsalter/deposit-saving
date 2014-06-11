@@ -1,0 +1,25 @@
+{
+  "name": "depositapp",
+  "version": "0.0.1",
+  "authors": [
+    "Ed Salter"
+  ],
+  "main": "app.js",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "~1.2.17",
+    "d3": "~3.4.8",
+    "nvd3": "~1.1.15-beta",
+    "angularjs-nvd3-directives": "~0.0.7"
+  },
+  "devDependencies": {
+    "angular-mocks": "~1.2.3"
+  }
+}
