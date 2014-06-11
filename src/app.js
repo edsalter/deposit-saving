@@ -7,6 +7,7 @@ var demoapp = angular.module('DepositApp',['nvd3ChartDirectives']);
 demoapp.service('StampDuty', function () {
 	var that = {};
 
+	//Returns a integer to be used as a percentage
 	that.getRate = function (targetHousePrice) {
 		var rate = 0;
 
@@ -32,6 +33,7 @@ demoapp.service('StampDuty', function () {
 		return rate;
 	}
 
+	//calculates the actual amount of stamp duty for a specific price
 	that.getAmount = function (targetHousePrice, rate) {
 		return (targetHousePrice / 100) * rate; 
 	}
@@ -54,6 +56,7 @@ demoapp.factory('Deposit', ['StampDuty',
 		that.savingPerMonth = 1500;
 		that.dateToBuy = new Date();
 
+		//short hand getter, uses internal state
 		that.getDespositAmount = function (){
 			return _calculateDepositAmount(that.housePrice, that.depositPercentage);
 		};
@@ -66,6 +69,7 @@ demoapp.factory('Deposit', ['StampDuty',
 			return _buyingFees;
 		}
 
+		//calculates stamp duty using included sercice
 		that.getStampDuty = function(targetHousePrice){
 			var stampDutyRate = StampDuty.getRate(targetHousePrice);			
 
