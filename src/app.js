@@ -2,7 +2,7 @@
 	@author Ed Salter
 */
 
-var demoapp = angular.module('DepositApp',['nvd3ChartDirectives']);
+var demoapp = angular.module('DepositApp', ['nvd3ChartDirectives']);
 
 demoapp.service('StampDuty', function () {
 	var that = {};
@@ -129,8 +129,8 @@ demoapp.factory('Deposit', ['StampDuty',
 
 
 
-demoapp.controller('DespoitCtrl', ['$scope', 'Deposit', function($scope, DepositSave) {
-	$scope.depositSave = DepositSave;
+demoapp.controller('DespoitCtrl', ['$scope', 'Deposit', function($scope, Deposit) {
+	$scope.depositSave = Deposit;
 }]);
 
 
